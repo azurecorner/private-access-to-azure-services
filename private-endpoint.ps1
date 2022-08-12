@@ -1,10 +1,15 @@
 $rg = 'SERVICE-ENDPOINT-RG'
+$nsg ='ERP-SERVERS-NSG'
+$location ='westeurope'
+
+az group create --location $location --name $rg 
 # Create NSG  ERP-SERVERS-NSG
+az network nsg create --name $nsg  --resource-group $rg --location $location
 
 #2.  create an outbound rule to allow access to Storage, in the Cloud Shell
 az network nsg rule create `
  --resource-group $rg `
- --nsg-name ERP-SERVERS-NSG `
+ --nsg-name $nsg `
  --name Allow_Storage `
  --priority 190 `
  --direction Outbound `
@@ -20,7 +25,7 @@ az network nsg rule create `
 
  az network nsg rule create `
  --resource-group $rg `
- --nsg-name ERP-SERVERS-NSG `
+ --nsg-name $nsg `
  --name Deny_Internet `
  --priority 200 `
  --direction Outbound `
